@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Vocación",
+    "slug": "vocacion-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "com.vocacion.app",
+      "versionCode": 1,
+      "permissions": [
+        "INTERNET"
+      ]
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.vocacion.app"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-splash-screen"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}
