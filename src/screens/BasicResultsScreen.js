@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { GoldButton, GhostButton, Card, SectionTitle, HollandBar, Badge } from '../components/UI';
 import { COLORS, RADIUS, SHADOW } from '../utils/theme';
+import { PAYMENTS_ENABLED } from '../config';
 import { HOLLAND_META } from '../data/tests';
 import { getTop } from '../utils/scores';
 
@@ -114,31 +115,42 @@ export default function BasicResultsScreen({ navigation, route }) {
               ))}
             </Card>
 
-            {/* Paywall */}
+{/* Paywall / Beta */}
             <LinearGradient
               colors={['rgba(245,158,11,0.12)', 'rgba(99,102,241,0.08)']}
               style={styles.paywall}
             >
-              <Text style={styles.paywallIcon}>🔒</Text>
-              <Text style={styles.paywallTitle}>Desbloquea tu análisis completo</Text>
-              <Text style={styles.paywallDesc}>
-                Test de Inteligencias Múltiples · Test de Valores · Plan de carrera 12 meses · 
-                Análisis IA personalizado · Reporte PDF descargable
-              </Text>
-              <GoldButton
-                title="✨  Obtener análisis completo — $79 MXN"
-                onPress={() => navigation.navigate('Plans', { hollandScores })}
-                style={{ marginTop: 4 }}
-              />
-              <Text style={styles.paywallNote}>Pago único · Sin suscripciones · ~$4 USD</Text>
+              {PAYMENTS_ENABLED ? (
+                <>
+                  <Text style={styles.paywallIcon}>🎯</Text>
+                  <Text style={styles.paywallTitle}>Análisis completo de tu vocación</Text>
+                  <Text style={styles.paywallDesc}>
+                    Test de Inteligencias Múltiples · Test de Valores Profesionales ·
+                    Carreras con salarios reales · Análisis IA honesto
+                  </Text>
+                  <GoldButton
+                    title="✨  Obtener mi análisis — $25 MXN"
+                    onPress={() => navigation.navigate('Payment', { hollandScores, plan: { id: 'complete', name: 'Análisis Completo', price: 25 } })}
+                    style={{ marginTop: 4 }}
+                  />
+                  <Text style={styles.paywallNote}>Pago único · Sin suscripciones · ~$1.25 USD</Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.paywallIcon}>🚧</Text>
+                  <Text style={styles.paywallTitle}>Modo Beta — Acceso libre</Text>
+                  <Text style={styles.paywallDesc}>
+                    Estamos en fase de pruebas. Accede al análisis completo gratis por tiempo limitado.
+                  </Text>
+                  <GoldButton
+                    title="🚀  Continuar al análisis completo"
+                    onPress={() => navigation.navigate('PremiumAnalysis', { hollandScores })}
+                    style={{ marginTop: 4 }}
+                  />
+                  <Text style={styles.paywallNote}>🔓 Beta gratuita · Próximamente $25 MXN</Text>
+                </>
+              )}
             </LinearGradient>
-
-            <GhostButton
-              title="Ver todos los planes"
-              onPress={() => navigation.navigate('Plans', { hollandScores })}
-              style={{ marginTop: 12 }}
-              color={COLORS.textFaint}
-            />
 
           </Animated.View>
         </ScrollView>
