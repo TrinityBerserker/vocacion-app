@@ -168,3 +168,32 @@ MIT — úsala, modifícala, mejórala.
 ---
 
 *Hecho en México 🇲🇽*
+
+
+
+---
+
+## 📊 Estado actual del proyecto
+
+**Última actualización:** 19 Mar 2026
+
+### ✅ Hecho y funcionando
+- 3 tests completos (Holland RIASEC, Gardner, Valores Profesionales)
+- Resultados visuales con barras de colores y código Holland
+- Base de datos de carreras mexicanas con salarios reales
+- IA conectada con Claude API — análisis honesto funcionando
+- Modo Beta sin pagos activo
+- Honor system — "no puedo pagar" da acceso completo
+- Precio: $25 MXN individual, escuelas públicas gratis, privadas $299 MXN
+- GitHub listo para colaborar
+
+### 🔜 En desarrollo
+- Pantalla de seguimiento a 4 semanas
+- Guardar resultados localmente en el celular
+
+### ⚠️ Pendientes antes de publicar
+- API key moverla a backend
+- Integrar Conekta para pagos reales
+- Política de privacidad
+- Build APK con EAS
+- Subir a Google Play ($25 USD)
