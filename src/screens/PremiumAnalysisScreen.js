@@ -6,6 +6,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Card, SectionTitle, HollandBar, GoldButton, ProgressBar, ScaleButtons } from '../components/UI';
+import { ANTHROPIC_API_KEY } from '../config';
 import { COLORS, RADIUS } from '../utils/theme';
 import { HOLLAND_META, INTEL_META, INTEL_QUESTIONS, VALUES_QUESTIONS } from '../data/tests';
 import { calcIntelScores, calcValueScores, getTop } from '../utils/scores';
@@ -44,7 +45,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
   };
 
   const handleValues = (val) => {
-    const q = VALUES_QUESTIONS[valIdx];
+    const q = VALUES_QUESTIONS[Math.min(valIdx, VALUES_QUESTIONS.length-1)];
     const newA = { ...valuesAnswers, [q.id]: val };
     setValuesAnswers(newA);
     animCard(() => {
@@ -64,7 +65,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
     try {
       const res = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', },
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1200,
@@ -82,6 +83,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
   };
 
   if (stage === 'intel') {
+    if (intelIdx >= INTEL_QUESTIONS.length) return null;
     const q = INTEL_QUESTIONS[intelIdx];
     return <QuestionStage
       label="✨ Inteligencias Múltiples · Gardner"
@@ -96,6 +98,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
   }
 
   if (stage === 'values') {
+    if (valIdx >= VALUES_QUESTIONS.length) return null;
     const q = VALUES_QUESTIONS[valIdx];
     return <QuestionStage
       label="💚 Valores Profesionales"

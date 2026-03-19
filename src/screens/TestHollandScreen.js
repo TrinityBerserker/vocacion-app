@@ -12,7 +12,7 @@ export default function TestHollandScreen({ navigation }) {
   const [current, setCurrent] = useState(0);
   const cardAnim = useRef(new Animated.Value(1)).current;
   const questions = HOLLAND_QUESTIONS;
-  const q = questions[current];
+  const q = questions[Math.min(current, questions.length-1)];
 
   useEffect(() => {
     Animated.timing(cardAnim, { toValue: 1, duration: 350, useNativeDriver: true }).start();
