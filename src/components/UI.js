@@ -161,17 +161,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
   },
-  goldBtn: {
-    borderRadius: RADIUS.md,
-    paddingVertical: 17,
-    alignItems: 'center',
-  },
-  goldBtnText: {
-    color: '#1a0f00',
-    fontSize: 16,
-    fontWeight: '800',
-    letterSpacing: 0.3,
-  },
+goldBtn: {
+  borderRadius: RADIUS.md,
+  paddingVertical: 17,
+  paddingHorizontal: 20,   // ← esto faltaba
+  alignItems: 'center',
+},
+goldBtnText: {
+  color: '#1a0f00',
+  fontSize: 16,
+  fontWeight: '800',
+  letterSpacing: 0.3,
+  textAlign: 'center',   // ← por si wrappea
+},
   ghostBtn: {
     borderRadius: RADIUS.md,
     paddingVertical: 15,

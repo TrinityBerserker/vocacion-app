@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GoldButton, GhostButton } from '../components/UI';
 import { COLORS, RADIUS, SHADOW } from '../utils/theme';
+import { cargarResultados } from '../utils/storage';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,6 +27,15 @@ const METHODS = [
 ];
 
 export default function HomeScreen({ navigation }) {
+
+  const [resultadoPrevio, setResultadoPrevio] = React.useState(null);
+
+useEffect(() => {
+  cargarResultados().then(data => {
+    if (data) setResultadoPrevio(data);
+  });
+}, []);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
 
@@ -64,6 +74,20 @@ export default function HomeScreen({ navigation }) {
               onPress={() => navigation.navigate('TestHolland')}
               style={{ marginBottom: 12 }}
             />
+
+            {resultadoPrevio && (
+  <TouchableOpacity
+    onPress={() => navigation.navigate('BasicResults', { hollandScores: resultadoPrevio.hollandScores })}
+    style={styles.previoBtn}
+  >
+    <Text style={styles.previoText}>📊 Ver tu análisis anterior</Text>
+    <Text style={styles.previoFecha}>
+      {new Date(resultadoPrevio.fecha).toLocaleDateString('es-MX')}
+    </Text>
+  </TouchableOpacity>
+)}
+
+
             <GhostButton
               title="✨  Ver planes Premium"
               onPress={() => navigation.navigate('Plans')}
@@ -158,4 +182,26 @@ const styles = StyleSheet.create({
     borderWidth: 1, borderColor: COLORS.goldBorder,
   },
   proofText: { fontSize: 13, color: COLORS.textMuted, fontStyle: 'italic', lineHeight: 20 },
+
+previoBtn: {
+  backgroundColor: 'rgba(245,158,11,0.12)',
+  borderWidth: 1.5,
+  borderColor: COLORS.gold,
+  borderRadius: RADIUS.md,
+  padding: 16,
+  alignItems: 'center',
+  marginBottom: 12,
+  width: '100%',
+},
+previoText: {
+  fontSize: 16,
+  fontWeight: '700',
+  color: COLORS.gold,
+  marginBottom: 4,
+},
+previoFecha: {
+  fontSize: 13,
+  color: COLORS.textMuted,
+},
+
 });

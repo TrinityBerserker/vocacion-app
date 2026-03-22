@@ -9,6 +9,7 @@ import { COLORS, RADIUS, SHADOW } from '../utils/theme';
 import { PAYMENTS_ENABLED } from '../config';
 import { HOLLAND_META } from '../data/tests';
 import { getTop } from '../utils/scores';
+import { guardarResultados, cargarResultados } from '../utils/storage';
 
 const CAREER_MAP = {
   RIE: ["Ingeniería mecatrónica", "Robótica industrial", "Manufactura avanzada"],
@@ -44,6 +45,12 @@ export default function BasicResultsScreen({ navigation, route }) {
   const top3 = sorted.slice(0, 3).map(([k]) => k);
   const maxScore = sorted[0][1];
   const careers = getCareers(top3);
+
+  useEffect(() => {
+  if (hollandScores && top3 && top3.length > 0) {
+    guardarResultados({ hollandScores, top3, fecha: new Date().toISOString() });
+  }
+}, []);
 
   useEffect(() => {
     Animated.timing(fadeAnim, { toValue: 1, duration: 600, useNativeDriver: true }).start();

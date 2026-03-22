@@ -11,6 +11,7 @@ import { COLORS, RADIUS } from '../utils/theme';
 import { HOLLAND_META, INTEL_META, INTEL_QUESTIONS, VALUES_QUESTIONS } from '../data/tests';
 import { calcIntelScores, calcValueScores, getTop } from '../utils/scores';
 import { getCarrerasCompatibles, buildMexicanContextPrompt } from '../data/mexicanCareers';
+import Markdown from 'react-native-markdown-display';
 
 const DEMAND_COLOR = { "MUY ALTA": "#22c55e", "ALTA": "#84cc16", "MEDIA": "#F59E0B", "BAJA": "#f97316", "DIFÍCIL": "#ef4444" };
 const SAT_COLOR = { "MUY BAJA": "#22c55e", "BAJA": "#84cc16", "MEDIA": "#F59E0B", "ALTA": "#f97316", "MUY ALTA": "#ef4444" };
@@ -69,7 +70,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
         body: JSON.stringify({
           model: 'claude-sonnet-4-20250514',
           max_tokens: 1200,
-          system: 'Eres un orientador vocacional experto en el mercado laboral mexicano. Eres honesto, empático y directo. Das información real y útil, no solo motivacional. Usas datos concretos. No usas asteriscos para formato.',
+          system: 'Eres un orientador vocacional experto en el mercado laboral mexicano. Eres honesto, empático y directo. Das información real y útil, no solo motivacional. Usas datos concretos. Usa formato Markdown limpio: **negrita** para títulos de sección, párrafos separados. Sin HTML.',
           messages: [{ role: 'user', content: prompt }],
         }),
       });
@@ -175,7 +176,7 @@ export default function PremiumAnalysisScreen({ navigation, route }) {
                 <Text style={styles.aiLoadingText}>Cruzando tu perfil con el mercado mexicano real...</Text>
               </View>
             ) : (
-              <Text style={styles.aiText}>{aiText}</Text>
+              <Markdown style={markdownStyles}>{aiText}</Markdown>
             )}
           </LinearGradient>
 
@@ -297,6 +298,16 @@ function QuestionStage({ label, accentColor, current, total, question, selected,
     </View>
   );
 }
+
+const markdownStyles = {
+  body: { color: '#cbd5e1', fontSize: 15, lineHeight: 26 },
+  paragraph: { color: '#cbd5e1', fontSize: 15, lineHeight: 26, marginBottom: 10 },
+  strong: { color: COLORS.gold, fontWeight: '700' },
+  heading1: { color: COLORS.text, fontSize: 17, fontWeight: '800', marginTop: 16, marginBottom: 6 },
+  heading2: { color: COLORS.text, fontSize: 15, fontWeight: '700', marginTop: 14, marginBottom: 4 },
+  bullet_list_icon: { color: COLORS.gold, marginTop: 6 },
+  ordered_list_icon: { color: COLORS.gold },
+};
 
 const styles = StyleSheet.create({
   scroll: { paddingHorizontal: 18, paddingBottom: 48, paddingTop: 12 },
